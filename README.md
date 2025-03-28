@@ -43,3 +43,5 @@ Once you have this setup, there is also a lot of tweaking you can do, here are s
 * you can make it scrape more, or less, often, with the tradeoff being the annoyance of constant notifications vs the loss of potential opportunity to snatch up a nice appointment 
 
 If you want help with any of those things, make a github issue and i will be glad to help out. They should be basic enough though that this is really a chatgpt-able problem.
+
+If you do make changes like that, please publish them, so that others lives can also be easier!
