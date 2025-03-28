@@ -1,0 +1,116 @@
+import subprocess
+import requests
+from bs4 import BeautifulSoup
+import argparse
+import schedule
+import time
+import random
+import json
+import os  # Import the os module
+
+# Configuration - **MODIFY THESE VALUES**
+DISCORD_WEBHOOK_URL = "YOUR_WEBHOOK_URL"  # <--- **REPLACE WITH YOUR DISCORD WEBHOOK URL**
+PREVIOUSLY_AVAILABLE_LOCATIONS_FILE = "available_locations.json" # File to track previous availability
+
+def fetch_appointment_data():
+    """Fetches appointment data, checks for availability, and sends Discord notifications."""
+    print(f"Running scrape at {time.strftime('%Y-%m-%d %H:%M:%S')}")
+
+    # Run the curl command and save output to output.html
+    subprocess.run(["/bin/bash", "fetch_appointments.sh"])
+
+    # Read the HTML content from the file
+    with open("output.html", "r") as f:
+        html_content = f.read()
+
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    available_locations = []
+    location_elements = soup.find_all('div', class_='QflowObjectItem')
+
+    for location_element in location_elements:
+        location_name_element = location_element.find('div') # This is the div with title attribute
+        address_element = location_element.find('div', class_='form-control-child')
+
+        # Extract location name from the *first* div inside location_name_element
+        location_name_div = location_name_element.find('div')
+        location_name = location_name_div.text.strip() if location_name_div else "Location Name Not Found"
+
+        address = address_element.text.strip() if address_element else "Address Not Found"
+
+
+        # Check if "Active-Unit" class is present in the location_element's classes
+        is_active_unit = "Active-Unit" in location_element.get('class', [])
+
+        location_data = {'name': location_name, 'address': address, 'available': is_active_unit}
+
+        if is_active_unit:
+            available_locations.append(location_data)
+
+    # Load previously available locations from file (if it exists)
+    previously_available = []
+    if os.path.exists(PREVIOUSLY_AVAILABLE_LOCATIONS_FILE):
+        with open(PREVIOUSLY_AVAILABLE_LOCATIONS_FILE, 'r') as f:
+            try:
+                previously_available = json.load(f)
+            except json.JSONDecodeError:
+                previously_available = [] # Handle empty or corrupted JSON file
+
+    newly_available_locations = []
+    for location in available_locations:
+        if location not in previously_available: # Check if location is newly available
+            newly_available_locations.append(location)
+
+    if newly_available_locations:
+        message_content = "@everyone Appointments are now AVAILABLE at:\n\n" # Added extra newline for spacing
+        for location in newly_available_locations:
+            message_content += f"- **{location['name']}**\n" # Bolded location name
+            message_content += f"  Address: {location['address']}\n\n" # Added "Address: " and newlines
+
+        send_discord_message(message_content) # Send Discord notification
+
+    # Save current available locations to file for next run
+    with open(PREVIOUSLY_AVAILABLE_LOCATIONS_FILE, 'w') as f:
+        json.dump(available_locations, f)
+
+    if available_locations:
+        print("Available Appointments Found at These Locations:")
+        for location in available_locations:
+            print(f"- {location['name']}: {location['address']}")
+    else:
+        print("No appointments available at any location (based on current data).")
+
+
+def send_discord_message(content):
+    """Sends a message to a Discord webhook URL."""
+    if not DISCORD_WEBHOOK_URL or DISCORD_WEBHOOK_URL == "YOUR_DISCORD_WEBHOOK_URL_HERE":
+        print("Discord Webhook URL not configured. Skipping Discord message.")
+        return
+
+    payload = {
+        "content": content
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    try:
+        response = requests.post(DISCORD_WEBHOOK_URL, data=json.dumps(payload), headers=headers)
+        response.raise_for_status() # Raise HTTPError for bad responses (4xx or 5xx)
+        print("Discord message sent successfully!")
+    except requests.exceptions.RequestException as e:
+        print(f"Error sending Discord message: {e}")
+
+
+def run_scheduler():
+    """Runs the scheduling loop with random delays."""
+    schedule.every(5).minutes.do(fetch_appointment_data)
+    print("Scheduler started. Press Ctrl+C to stop.")
+    while True:
+        schedule.run_pending()
+        # Add random delay here, *after* running pending jobs
+        time.sleep(1 + random.randint(0, 5)) # Wait 1-6 seconds (1 + 0 to 5 random seconds)
+
+if __name__ == "__main__":
+    send_discord_message("@everyone Scraper up and running")
+    fetch_appointment_data()
+    run_scheduler()
