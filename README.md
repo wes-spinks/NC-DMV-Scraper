@@ -9,14 +9,18 @@ I strongly recommend you set it up yourself, but if you are entirely unwilling t
 In order to set it up, you must first install python, selenium, and the selenium geckodriver
 
 https://www.python.org/downloads/
+
 https://pypi.org/project/selenium/
+
 https://github.com/mozilla/geckodriver/releases
 
 Then, you need to get the file path for the geckodriver you downloaded, and put it in scrapedmv.py like this:
 
+```python
 GECKODRIVER_PATH = '/home/tommy/.cache/selenium/geckodriver/linux64/0.35.0/geckodriver' # Replace with your geckodriver path
+```
 
-Your format will depend on your operating system, e.g. on windows it may be like GECKODRIVER_PATH = 'C:\Users\tommy\Downloads\0.35.0\geckodriver' or something like that. 
+Your format will depend on your operating system, e.g. on windows it may be like `GECKODRIVER_PATH = 'C:\Users\tommy\Downloads\0.35.0\geckodriver' or something like that. 
 
 
 Then, you need to go to discord, and create a webhook in a server you own ( make a server if you dont have one )
@@ -24,7 +28,9 @@ You can do that by going to the server, right clicking a channel -> edit channel
 
 Then put that webhook url in your scrapedmv.py like this:
 
+```python
 YOUR_DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/10920931091/-JAOIFJWjenirieojOAJOIWjonfrreywoijojwojoOIAJODAab3" # !!! REPLACE WITH YOUR ACTUAL WEBHOOK URL !!!
+```
 
 ( that is not a real webhook url to be clear ) 
 
