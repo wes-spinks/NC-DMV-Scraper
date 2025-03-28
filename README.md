@@ -14,6 +14,8 @@ https://pypi.org/project/selenium/
 
 https://github.com/mozilla/geckodriver/releases
 
+Then, download the code for this by clicking the green code button in the top right, and clicking download zip. Open that zip up, and extract it somewhere.
+
 Then, you need to get the file path for the geckodriver you downloaded, and put it in scrapedmv.py like this:
 
 ```python
@@ -40,7 +42,7 @@ Once you have this setup, there is also a lot of tweaking you can do, here are s
 * Currently, it will report all appointments from all locations to you, but that is not necessarily what you want
 * you can restrict it to only a few locations that are within comfortable driving range of where you live, or walking range of where you live
 * you can restrict it to only appointments in timeframes that you want ( e.g. i dont want to wait 3 months for an appointment, so i just waited until someone else's appointment for 3 days from now became available and snatched theirs up )
-* you can make it scrape more, or less, often, with the tradeoff being the annoyance of constant notifications vs the loss of potential opportunity to snatch up a nice appointment 
+* you can make it scrape more, or less, often. The tradeoff being the annoyance of constant notifications vs the loss of potential opportunity to snatch up a nice appointment 
 
 If you want help with any of those things, make a github issue and i will be glad to help out. They should be basic enough though that this is really a chatgpt-able problem.
 
