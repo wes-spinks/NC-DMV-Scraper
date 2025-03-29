@@ -62,5 +62,5 @@ docker run -e YOUR_DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/1092093
 
 Run a pre-built image
 ```bash
-docker run -e YOUR_DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/10920931091/-JAOIFJWjenirieojOAJOIWjonfrreywoijojwojoOIAJODAab3" quay.io/vargav/nc-dmv-scraper
+docker run -e YOUR_DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/10920931091/-JAOIFJWjenirieojOAJOIWjonfrreywoijojwojoOIAJODAab3" ghcr.io/tmcelroy2202/nc-dmv-scraper:latest
 ```
