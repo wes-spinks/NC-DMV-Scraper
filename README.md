@@ -47,3 +47,20 @@ Once you have this setup, there is also a lot of tweaking you can do, here are s
 If you want help with any of those things, make a github issue and i will be glad to help out. They should be basic enough though that this is really a chatgpt-able problem.
 
 If you do make changes like that, please publish them, so that others lives can also be easier!
+
+#### Build and run the containerized application
+Docker build
+
+```bash
+docker build -t nc-dmv-scraper .
+```
+
+Run Container
+```bash
+docker run -e YOUR_DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/10920931091/-JAOIFJWjenirieojOAJOIWjonfrreywoijojwojoOIAJODAab3" nc-dmv-scraper
+```
+
+Run a pre-built image
+```bash
+docker run -e YOUR_DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/10920931091/-JAOIFJWjenirieojOAJOIWjonfrreywoijojwojoOIAJODAab3" quay.io/vargav/nc-dmv-scraper
+```
