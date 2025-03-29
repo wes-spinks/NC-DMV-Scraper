@@ -48,7 +48,8 @@ If you want help with any of those things, make a github issue and i will be gla
 
 If you do make changes like that, please publish them, so that others lives can also be easier!
 
-#### Build and run the containerized application
+#### If you wish to run via Docker, you can do that as well:
+
 Docker build
 
 ```bash
