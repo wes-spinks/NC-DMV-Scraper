@@ -8,11 +8,12 @@ from selenium.common.exceptions import StaleElementReferenceException, TimeoutEx
 import time
 import random
 import requests
+import os
 
 # --- Configuration ---
 
-YOUR_DISCORD_WEBHOOK_URL = "YOUR_WEBHOOK_URL_HERE" # !!! REPLACE WITH YOUR ACTUAL WEBHOOK URL !!!
-GECKODRIVER_PATH = 'YOUR_GECKODRIVER_PATH_HERE' # Replace with your geckodriver path
+YOUR_DISCORD_WEBHOOK_URL = os.getenv("YOUR_DISCORD_WEBHOOK_URL", "YOUR_WEBHOOK_URL_HERE") # !!! REPLACE WITH YOUR ACTUAL WEBHOOK URL !!!
+GECKODRIVER_PATH = os.getenv('GECKODRIVER_PATH','YOUR_GECKODRIVER_PATH_HERE') # Replace with your geckodriver path
 
 if GECKODRIVER_PATH == 'YOUR_GECKODRIVER_PATH_HERE':
     print("Please set your geckodriver path in scrapedmv.py. If you do not know how, please look at the readme.")
