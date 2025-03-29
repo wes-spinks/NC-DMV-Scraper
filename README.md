@@ -50,18 +50,24 @@ If you do make changes like that, please publish them, so that others lives can 
 
 #### If you wish to run via Docker, you can do that as well:
 
+Run a pre-built image
+```bash
+docker run -e YOUR_DISCORD_WEBHOOK_URL="PUT_YOUR_WEBHOOK_URL_HERE" ghcr.io/tmcelroy2202/nc-dmv-scraper:latest
+```
+
+or, if you wish to build locally:
+
+
 Docker build
 
 ```bash
 docker build -t nc-dmv-scraper .
 ```
 
+then
+
 Run Container
 ```bash
-docker run -e YOUR_DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/10920931091/-JAOIFJWjenirieojOAJOIWjonfrreywoijojwojoOIAJODAab3" nc-dmv-scraper
+docker run -e YOUR_DISCORD_WEBHOOK_URL="PUT_YOUR_WEBHOOK_URL_HERE" nc-dmv-scraper
 ```
 
-Run a pre-built image
-```bash
-docker run -e YOUR_DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/10920931091/-JAOIFJWjenirieojOAJOIWjonfrreywoijojwojoOIAJODAab3" ghcr.io/tmcelroy2202/nc-dmv-scraper:latest
-```
