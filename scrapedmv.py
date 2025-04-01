@@ -121,7 +121,7 @@ def extract_times_for_all_locations_firefox(url, driver_path):
     try:
         firefox_options = Options()
         firefox_options.set_preference("geo.enabled", False)
-        firefox_options.add_argument("--headless")
+        # firefox_options.add_argument("--headless")
         service = FirefoxService(executable_path=driver_path)
         driver = webdriver.Firefox(service=service, options=firefox_options)
         driver.implicitly_wait(5)
@@ -129,26 +129,24 @@ def extract_times_for_all_locations_firefox(url, driver_path):
         driver.get(url)
         print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] Navigated to:", url)
 
-        time.sleep(40)
-        make_appointment_button = WebDriverWait(driver, 10).until(
+        make_appointment_button = WebDriverWait(driver, 50).until(
             EC.presence_of_element_located((By.ID, "cmdMakeAppt"))
         )
         print("Found 'Make an Appointment' button.")
         make_appointment_button.click()
         print("Clicked 'Make an Appointment' button.")
-        time.sleep(20)
 
         # first_layer_button_xpath = "//div[contains(@class, 'QflowObjectItem') and contains(@class, 'form-control') and contains(@class, 'ui-selectable') and contains(@class, 'valid') and .//div[contains(text(), 'Driver License - First Time')]]"
         first_layer_button_xpath = "//div[contains(@class, 'QflowObjectItem') and .//div[contains(text(), 'Driver License - First Time')]]"
-        first_layer_button = WebDriverWait(driver, 10).until(
+        time.sleep(2)
+        first_layer_button = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, first_layer_button_xpath))
         )
         print("Found 'Driver License - First Time' button (First Layer).")
         first_layer_button.click()
         print("Clicked 'Driver License - First Time' button (First Layer).")
 
-        time.sleep(20)
-        wait = WebDriverWait(driver, 15)
+        wait = WebDriverWait(driver, 35)
         second_layer_button_selector = "div.QflowObjectItem.form-control.ui-selectable.valid:not(.disabled-unit):not(:has(> div.hover-div))"
         wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, second_layer_button_selector)))
         print("Second layer location buttons are now present (using refined selector).")
@@ -169,10 +167,9 @@ def extract_times_for_all_locations_firefox(url, driver_path):
                 print(f"\n--- Processing location: {location_name} (Index: {index}) ---")
                 print("Clicking location button:", location_name)
                 current_button.click()
-                time.sleep(20)
 
                 time_slot_container_selector = "div.step-control-content.AppointmentTime.TimeSlotModel.TimeSlotDataControl"
-                time_slot_container = WebDriverWait(driver, 15).until(
+                time_slot_container = WebDriverWait(driver, 35).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, time_slot_container_selector))
                 )
 
@@ -190,9 +187,8 @@ def extract_times_for_all_locations_firefox(url, driver_path):
                         raw_location_results[location_name] = "Dropdown Disabled"
                         skip_extraction = True
                     else:
-                        options_loaded_wait = WebDriverWait(driver, 15)
+                        options_loaded_wait = WebDriverWait(driver, 35)
                         try:
-                            time.sleep(20)
                             options_loaded_wait.until(options_loaded_in_select(time_select_locator))
                             print("Confirmed: Options loaded.")
                             options_loaded = True
