@@ -121,7 +121,7 @@ def extract_times_for_all_locations_firefox(url, driver_path):
     try:
         firefox_options = Options()
         firefox_options.set_preference("geo.enabled", False)
-        # firefox_options.add_argument("--headless")
+        firefox_options.add_argument("--headless")
         service = FirefoxService(executable_path=driver_path)
         driver = webdriver.Firefox(service=service, options=firefox_options)
         driver.implicitly_wait(5)
