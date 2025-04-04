@@ -306,7 +306,13 @@ def extract_times_for_all_locations_firefox(url, driver_path,
 
         wait = WebDriverWait(driver, 35)
         second_layer_button_selector = "div.QflowObjectItem.form-control.ui-selectable.valid:not(.disabled-unit):not(:has(> div.hover-div))"
-        wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, second_layer_button_selector)))
+        try:
+            wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, second_layer_button_selector)))
+        except Exception as e:
+            print("No appointments buttons found")
+            print(e)
+            return {}
+
         print("Second layer location buttons are now present (using refined selector).")
 
         for index in range(100):
