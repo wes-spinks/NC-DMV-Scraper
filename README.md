@@ -135,3 +135,31 @@ Run Container
 docker run -e YOUR_DISCORD_WEBHOOK_URL="PUT_YOUR_WEBHOOK_URL_HERE" nc-dmv-scraper
 ```
 
+# Docker Compose
+If you wish to run via docker compose, you can just git clone this repository then run
+```bash
+docker compose up -d
+```
+
+If you wish to customize the environment variables, they can be edited in docker-compose.yml like this:
+
+```yaml
+services:
+  dmv-scraper:
+    image: ghcr.io/tmcelroy2202/nc-dmv-scraper:latest
+    container_name: nc-dmv-scraper
+    environment:
+      # --- IMPORTANT: Update this ---
+      YOUR_DISCORD_WEBHOOK_URL: "YOUR_WEBHOOK_URL_HERE"
+
+      # --- Extra Configuration ---
+      YOUR_ADDRESS: "1337 Testing Lane, Charlotte NC"
+      DISTANCE_RANGE: 50
+      DATE_RANGE_START: "03/23/2025"
+      DATE_RANGE_END: "09/23/2025"
+      # do not use date_range relative ( e.g. 2w ) AND date_range_start / date_range_end at same time. use one or the other.
+      DATE_RANGE: "2w"
+      # TIME_RANGE_START: "8:00"
+      # TIME_RANGE_END: "19:00"
+    restart: unless-stopped
+```
