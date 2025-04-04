@@ -1,7 +1,7 @@
 FROM python:3.13-slim
 
 WORKDIR /app
-COPY requirements.txt scrapedmv.py /app/
+COPY ncdot_locations_coordinates_only.json requirements.txt scrapedmv.py /app/
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl firefox-esr && \
