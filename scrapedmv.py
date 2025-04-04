@@ -309,7 +309,7 @@ def extract_times_for_all_locations_firefox(url, driver_path,
         try:
             wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, second_layer_button_selector)))
         except Exception as e:
-            print("No appointments buttons found")
+            print("No appointment buttons found")
             print(e)
             return {}
 
