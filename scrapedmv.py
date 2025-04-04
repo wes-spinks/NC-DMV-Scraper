@@ -26,7 +26,13 @@ GECKODRIVER_PATH = os.getenv('GECKODRIVER_PATH','YOUR_GECKODRIVER_PATH_HERE') # 
 # DISTANCE_RANGE_MILES_STR = 25
 YOUR_ADDRESS = os.getenv("YOUR_ADDRESS")
 DISTANCE_RANGE_MILES_STR = os.getenv("DISTANCE_RANGE")
-LOCATION_DATA_FILE = "ncdot_locations_coordinates_only.json"
+if os.path.isfile("/app/ncdot_locations_coordinates_only.json"):
+    LOCATION_DATA_FILE = "ncdot_locations_coordinates_only.json"
+elif os.path.isfile("ncdot_locations_coordinates_only.json"):
+    LOCATION_DATA_FILE = "ncdot_locations_coordinates_only.json"
+else:
+    print("Location data file not set, please set one")
+
 
 # Date/Time filtering env vars
 # examples of syntax:
