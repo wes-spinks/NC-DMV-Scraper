@@ -6,6 +6,8 @@ It uses selenium to scrape appointment locations, dates, and times, from https:/
 
 I strongly recommend you set it up yourself, but if you are entirely unwilling to do that ( even though it is quite easy ), you could reach out to me ( tommy092464_62746 on discord, or via github issues ) and pay me like 5 bucks and ill host it for you for however long you need, with absolutely no uptime guarantees ( e.g. if my power, or internet go out, that sucks for you. ). 
 
+# Setup
+
 In order to set it up, you must first install python, selenium, and the selenium geckodriver
 
 https://www.python.org/downloads/
@@ -16,7 +18,13 @@ https://github.com/mozilla/geckodriver/releases
 
 Then, download the code for this by clicking the green code button in the top right, and clicking download zip. Open that zip up, and extract it somewhere.
 
-Then, you need to get the file path for the geckodriver you downloaded, and put it in scrapedmv.py like this:
+Then, you need to get the file path for the geckodriver you downloaded, open up scrapedmv.py in a texteditor, and replace the line that says this:
+
+```python
+GECKODRIVER_PATH = os.getenv('GECKODRIVER_PATH','YOUR_GECKODRIVER_PATH_HERE') # Replace with your geckodriver path
+```
+
+with your geckodriver path, like this:
 
 ```python
 GECKODRIVER_PATH = '/home/tommy/.cache/selenium/geckodriver/linux64/0.35.0/geckodriver' # Replace with your geckodriver path
@@ -28,7 +36,12 @@ Your format will depend on your operating system, e.g. on windows it may be like
 Then, you need to go to discord, and create a webhook in a server you own ( make a server if you dont have one )
 You can do that by going to the server, right clicking a channel -> edit channel -> integrations -> webhooks -> new webhook -> copy webhook url
 
-Then put that webhook url in your scrapedmv.py like this:
+Then open up scrapedmv.py in a text editor, and replace the line that says this:
+```python
+YOUR_DISCORD_WEBHOOK_URL = os.getenv("YOUR_DISCORD_WEBHOOK_URL", "YOUR_WEBHOOK_URL_HERE") # !!! REPLACE WITH YOUR ACTUAL WEBHOOK URL !!!
+```
+
+with your webhook url, like this:
 
 ```python
 YOUR_DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/10920931091/-JAOIFJWjenirieojOAJOIWjonfrreywoijojwojoOIAJODAab3" # !!! REPLACE WITH YOUR ACTUAL WEBHOOK URL !!!
@@ -36,17 +49,63 @@ YOUR_DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/10920931091/-JAOIFJ
 
 ( that is not a real webhook url to be clear ) 
 
-Then, you just run `python3 scrapedmv.py`, and every 5 minutes or so it will start the scraping process. 
+Then, you just run `python3 scrapedmv.py`, and every 5 minutes or so it will start the scraping process. That is all you have to do to get it up and running!
 
-Once you have this setup, there is also a lot of tweaking you can do, here are some examples:
-* Currently, it will report all appointments from all locations to you, but that is not necessarily what you want
-* you can restrict it to only a few locations that are within comfortable driving range of where you live, or walking range of where you live
-* you can restrict it to only appointments in timeframes that you want ( e.g. i dont want to wait 3 months for an appointment, so i just waited until someone else's appointment for 3 days from now became available and snatched theirs up )
-* you can make it scrape more, or less, often. The tradeoff being the annoyance of constant notifications vs the loss of potential opportunity to snatch up a nice appointment 
 
-If you want help with any of those things, make a github issue and i will be glad to help out. They should be basic enough though that this is really a chatgpt-able problem.
+# Filtering
+There is also appointment filtering you can apply in that file:
 
-If you do make changes like that, please publish them, so that others lives can also be easier!
+You can set an address, and a distance range, and have it only look for dmv locations within that range of miles from the given address
+
+You would do that by changing these values
+
+```python
+YOUR_ADDRESS = os.getenv("YOUR_ADDRESS")
+DISTANCE_RANGE_MILES_STR = os.getenv("DISTANCE_RANGE")
+```
+
+so that they looked like this:
+
+```python
+YOUR_ADDRESS = "1337 Testing Lane, Charlotte NC"
+DISTANCE_RANGE_MILES_STR = "40"
+```
+
+You can also set specific time and date ranges to scan for, by changing these lines:
+
+```python
+DATE_RANGE_START_STR = os.getenv("DATE_RANGE_START")
+DATE_RANGE_END_STR = os.getenv("DATE_RANGE_END")
+DATE_RANGE_RELATIVE_STR = os.getenv("DATE_RANGE")
+TIME_RANGE_START_STR = os.getenv("TIME_RANGE_START")
+TIME_RANGE_END_STR = os.getenv("TIME_RANGE_END")
+```
+
+examples of things you could do with them are:
+
+```python
+DATE_RANGE_START_STR = "01/23/2025"
+DATE_RANGE_END_STR = "09/23/2025"
+```
+
+to only show appointments from 01/23/2025 to 09/23/2025.
+
+or
+
+```python
+DATE_RANGE_RELATIVE_STR = "2w"
+```
+
+to only show appointments in the next 2 weeks ( could also do 1m for one month, or 5d for 5 days, etc. ) 
+
+or
+
+```python
+TIME_RANGE_START_STR = "3:00"
+TIME_RANGE_END_STR = "19:00"
+```
+
+to only show appointments from 3:00AM to 7:00PM.
 
 #### If you wish to run via Docker, you can do that as well:
 
@@ -55,8 +114,13 @@ Run a pre-built image
 docker run -e YOUR_DISCORD_WEBHOOK_URL="PUT_YOUR_WEBHOOK_URL_HERE" ghcr.io/tmcelroy2202/nc-dmv-scraper:latest
 ```
 
-or, if you wish to build locally:
+To run via docker with custom filtering arguments, you would do, for example:
 
+```bash
+docker run -e YOUR_DISCORD_WEBHOOK_URL="PUT_YOUR_WEBHOOK_URL_HERE" -e YOUR_ADDRESS="1337 Testing Lane, Charlotte NC" -e DISTANCE_RANGE=50 -e DATE_RANGE_START="03/23/2025" -e DATE_RANGE_END="09/23/2025" -e TIME_RANGE_START="8:00" -e TIME_RANGE_END="9:00" ghcr.io/tmcelroy2202/nc-dmv-scraper:latest
+```
+
+or, if you wish to build the docker container locally:
 
 Docker build
 
