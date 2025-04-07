@@ -33,6 +33,13 @@ elif os.path.isfile("ncdot_locations_coordinates_only.json"):
 else:
     print("Location data file not set, please set one")
 
+APPOINTMENT_TYPE = os.getenv("APPOINTMENT_TYPE", "Driver License - First Time")
+# APPOINTMENT_TYPE = os.getenv("APPOINTMENT_TYPE", "Motorcycle Skills Test")
+# You could also define:
+# APPOINTMENT_TYPE = "Permits"
+# APPOINTMENT_TYPE = "Teen Driver Level 1"
+# APPOINTMENT_TYPE = "ID Card"
+# etc. Just get the name off the button you want to click from skiptheline.ncdot.gov .
 
 # Date/Time filtering env vars
 # examples of syntax:
@@ -279,7 +286,7 @@ def extract_times_for_all_locations_firefox(url, driver_path,
     try:
         firefox_options = Options()
         firefox_options.set_preference("geo.enabled", False)
-        firefox_options.add_argument("--headless")
+        # firefox_options.add_argument("--headless")
         service = FirefoxService(executable_path=driver_path)
         driver = webdriver.Firefox(service=service, options=firefox_options)
         driver.implicitly_wait(5)
@@ -295,14 +302,14 @@ def extract_times_for_all_locations_firefox(url, driver_path,
         print("Clicked 'Make an Appointment' button.")
 
         # first_layer_button_xpath = "//div[contains(@class, 'QflowObjectItem') and contains(@class, 'form-control') and contains(@class, 'ui-selectable') and contains(@class, 'valid') and .//div[contains(text(), 'Driver License - First Time')]]"
-        first_layer_button_xpath = "//div[contains(@class, 'QflowObjectItem') and .//div[contains(text(), 'Driver License - First Time')]]"
+        first_layer_button_xpath = f"//div[contains(@class, 'QflowObjectItem') and .//div[contains(text(), '{APPOINTMENT_TYPE}')]]"
         time.sleep(2)
         first_layer_button = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, first_layer_button_xpath))
         )
-        print("Found 'Driver License - First Time' button (First Layer).")
+        print(f"Found '{APPOINTMENT_TYPE}' button (First Layer).")
         first_layer_button.click()
-        print("Clicked 'Driver License - First Time' button (First Layer).")
+        print(f"Clicked '{APPOINTMENT_TYPE}' button (First Layer).")
 
         wait = WebDriverWait(driver, 35)
         second_layer_button_selector = "div.QflowObjectItem.form-control.ui-selectable.valid:not(.disabled-unit):not(:has(> div.hover-div))"
