@@ -51,6 +51,38 @@ YOUR_DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/10920931091/-JAOIFJ
 
 Then, you just run `python3 scrapedmv.py`, and every 5 minutes or so it will start the scraping process. That is all you have to do to get it up and running!
 
+# Appointment type
+You can choose the type of appointment by editing scrapedmv.py on the line where it says 
+
+```python
+APPOINTMENT_TYPE = os.getenv("APPOINTMENT_TYPE", "Driver License - First Time")
+```
+
+you can change that to
+```python
+APPOINTMENT_TYPE = "Fees"
+```
+
+or
+
+```python
+APPOINTMENT_TYPE = "Non-CDL Road Test"
+```
+
+or any of the other button names on the appointment choosing section of the website, just make sure you get the exact name  from skiptheline.ncdot.gov. e.g. if you were to say
+
+```python
+APPOINTMENT_TYPE = "Non CDL Road Test"
+```
+
+That would fail, because it would only find the one with the -, and that would not match.
+
+You can also change this with docker by setting environment variables
+
+```bash
+docker run -e YOUR_DISCORD_WEBHOOK_URL="PUT_YOUR_WEBHOOK_URL_HERE" -e APPOINTMENT_TYPE="Teen Driver Level 1" ghcr.io/tmcelroy2202/nc-dmv-scraper:latest
+```
+
 
 # Filtering
 There is also appointment filtering you can apply in that file:
@@ -153,6 +185,7 @@ services:
       YOUR_DISCORD_WEBHOOK_URL: "YOUR_WEBHOOK_URL_HERE"
 
       # --- Extra Configuration ---
+      APPOINTMENT_TYPE: "Driver License - First Time"
       YOUR_ADDRESS: "1337 Testing Lane, Charlotte NC"
       DISTANCE_RANGE: 50
       DATE_RANGE_START: "03/23/2025"
