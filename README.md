@@ -136,7 +136,7 @@ docker run -e YOUR_DISCORD_WEBHOOK_URL="PUT_YOUR_WEBHOOK_URL_HERE" nc-dmv-scrape
 ```
 
 # Docker Compose
-If you wish to run via docker compose, you can just git clone this repository then run
+If you wish to run via docker compose, you can just git clone this repository, set your webhook URL in docker-compose.yml, then run
 ```bash
 docker compose up -d
 ```

@@ -51,7 +51,7 @@ if GECKODRIVER_PATH == 'YOUR_GECKODRIVER_PATH_HERE':
     print("Please set your geckodriver path in scrapedmv.py. If you do not know how, please look at the readme.")
     exit()
 
-BASE_INTERVAL_MINUTES = os.getenv('BASE_INTERVAL_MINUTES', 10)
+BASE_INTERVAL_MINUTES = int(os.getenv('BASE_INTERVAL_MINUTES', 10))
 MIN_RANDOM_DELAY_SECONDS = 10
 MAX_RANDOM_DELAY_SECONDS = 30
 NCDOT_APPOINTMENT_URL = "https://skiptheline.ncdot.gov"
