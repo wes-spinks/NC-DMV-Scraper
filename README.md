@@ -8,7 +8,9 @@ I strongly recommend you set it up yourself, but if you are entirely unwilling t
 
 # Setup
 
-In order to set it up, you must first install python, selenium, and the selenium geckodriver
+In order to set it up, you must first install Firefox, python, selenium, and the selenium geckodriver
+
+https://www.mozilla.org/en-US/firefox/new/
 
 https://www.python.org/downloads/
 
