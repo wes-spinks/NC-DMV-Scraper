@@ -8,13 +8,25 @@ I strongly recommend you set it up yourself, but if you are entirely unwilling t
 
 # Setup
 
-In order to set it up, you must first install python, selenium, and the selenium geckodriver
+In order to set it up, you must first install python and the selenium geckodriver
 
 https://www.python.org/downloads/
 
-https://pypi.org/project/selenium/
-
 https://github.com/mozilla/geckodriver/releases
+
+then, you must install the dependencies
+
+open a terminal and run
+
+```bash
+pip3 install requests geopy selenium
+```
+
+if that does not work, try
+
+```bash
+python -m pip install requests geopy selenium
+```
 
 Then, download the code for this by clicking the green code button in the top right, and clicking download zip. Open that zip up, and extract it somewhere.
 
