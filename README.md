@@ -44,7 +44,7 @@ with your geckodriver path, like this:
 GECKODRIVER_PATH = '/home/tommy/.cache/selenium/geckodriver/linux64/0.35.0/geckodriver' # Replace with your geckodriver path
 ```
 
-Your format will depend on your operating system, e.g. on windows it may be like `GECKODRIVER_PATH = 'C:\Users\tommy\Downloads\0.35.0\geckodriver.exe'` or something like that. 
+Your format will depend on your operating system, e.g. on windows it may be like `GECKODRIVER_PATH = 'C:/Users/tommy/Downloads/0.35.0/geckodriver.exe'` or something like that. 
 
 
 Then, you need to go to discord, and create a webhook in a server you own ( make a server if you dont have one )
