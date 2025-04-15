@@ -18,7 +18,7 @@ import calendar
 
 # --- Configuration ---
 
-YOUR_DISCORD_WEBHOOK_URL = os.getenv("YOUR_DISCORD_WEBHOOK_URL", "https://ntfy.sh/tommydmvtesting") # !!! REPLACE WITH YOUR ACTUAL WEBHOOK URL !!!
+YOUR_DISCORD_WEBHOOK_URL = os.getenv("YOUR_DISCORD_WEBHOOK_URL", "YOUR_WEBHOOK_URL_HERE") # !!! REPLACE WITH YOUR ACTUAL WEBHOOK URL !!!
 GECKODRIVER_PATH = os.getenv('GECKODRIVER_PATH','YOUR_GECKODRIVER_PATH_HERE') # Replace with your geckodriver path
 
 # Can change address via environment values or manually edit this code 
