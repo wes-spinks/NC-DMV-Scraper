@@ -18,7 +18,7 @@ import calendar
 
 # --- Configuration ---
 
-YOUR_DISCORD_WEBHOOK_URL = os.getenv("YOUR_DISCORD_WEBHOOK_URL", "YOUR_WEBHOOK_URL_HERE") # !!! REPLACE WITH YOUR ACTUAL WEBHOOK URL !!!
+YOUR_DISCORD_WEBHOOK_URL = os.getenv("YOUR_DISCORD_WEBHOOK_URL", "https://ntfy.sh/tommydmvtesting") # !!! REPLACE WITH YOUR ACTUAL WEBHOOK URL !!!
 GECKODRIVER_PATH = os.getenv('GECKODRIVER_PATH','YOUR_GECKODRIVER_PATH_HERE') # Replace with your geckodriver path
 
 # Can change address via environment values or manually edit this code 
@@ -237,22 +237,34 @@ def send_discord_notification(webhook_url, message_content):
 
     print(f"Sending notification in {len(message_chunks)} chunk(s)...")
     success = True
-    for i, chunk in enumerate(message_chunks):
-        payload = {"content": chunk}
+    if "https://ntfy.sh/" in webhook_url:
         try:
-            response = requests.post(webhook_url, json=payload, timeout=15)
+            response = requests.post(webhook_url, data=full_message,timeout=10,headers={ "Markdown": "yes" })
             response.raise_for_status()
-            print(f"Discord notification chunk {i+1}/{len(message_chunks)} sent successfully.")
-            if i < len(message_chunks) - 1:
-                time.sleep(1) # avoid ratelimit
+            print("ntfy notification sent successfully")
         except requests.exceptions.RequestException as e:
-            print(f"Error sending Discord notification chunk {i+1}: {e}")
+            print(f"Error sending ntfy notification: {e}")
             success = False
-            break
         except Exception as e:
-            print(f"An unexpected error occurred during Discord notification chunk {i+1}: {e}")
+            print(f"An unexpected error occurred during sending ntfy notification: {e}")
             success = False
-            break
+    else:
+        for i, chunk in enumerate(message_chunks):
+            payload = {"content": chunk}
+            try:
+                response = requests.post(webhook_url, json=payload, timeout=15)
+                response.raise_for_status()
+                print(f"Discord notification chunk {i+1}/{len(message_chunks)} sent successfully.")
+                if i < len(message_chunks) - 1:
+                    time.sleep(1) # avoid ratelimit
+            except requests.exceptions.RequestException as e:
+                print(f"Error sending Discord notification chunk {i+1}: {e}")
+                success = False
+                break
+            except Exception as e:
+                print(f"An unexpected error occurred during Discord notification chunk {i+1}: {e}")
+                success = False
+                break
 
     if success:
         print("All Discord notification chunks sent.")
