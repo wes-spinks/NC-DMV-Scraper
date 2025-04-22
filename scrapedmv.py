@@ -323,7 +323,7 @@ def extract_times_for_all_locations_firefox(url, driver_path,
         first_layer_button.click()
         print(f"Clicked '{APPOINTMENT_TYPE}' button (First Layer).")
 
-        wait = WebDriverWait(driver, 55)
+        wait = WebDriverWait(driver, 85)
         second_layer_button_selector = "div.QflowObjectItem.form-control.ui-selectable.valid:not(.disabled-unit):not(:has(> div.hover-div))"
         try:
             wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, second_layer_button_selector)))
