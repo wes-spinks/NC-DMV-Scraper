@@ -306,7 +306,7 @@ def extract_times_for_all_locations_firefox(url, driver_path,
         driver.get(url)
         print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] Navigated to:", url)
 
-        make_appointment_button = WebDriverWait(driver, 50).until(
+        make_appointment_button = WebDriverWait(driver, 90).until(
             EC.presence_of_element_located((By.ID, "cmdMakeAppt"))
         )
         print("Found 'Make an Appointment' button.")
@@ -316,14 +316,14 @@ def extract_times_for_all_locations_firefox(url, driver_path,
         # first_layer_button_xpath = "//div[contains(@class, 'QflowObjectItem') and contains(@class, 'form-control') and contains(@class, 'ui-selectable') and contains(@class, 'valid') and .//div[contains(text(), 'Driver License - First Time')]]"
         first_layer_button_xpath = f"//div[contains(@class, 'QflowObjectItem') and .//div[contains(text(), '{APPOINTMENT_TYPE}')]]"
         time.sleep(2)
-        first_layer_button = WebDriverWait(driver, 30).until(
+        first_layer_button = WebDriverWait(driver, 50).until(
             EC.element_to_be_clickable((By.XPATH, first_layer_button_xpath))
         )
         print(f"Found '{APPOINTMENT_TYPE}' button (First Layer).")
         first_layer_button.click()
         print(f"Clicked '{APPOINTMENT_TYPE}' button (First Layer).")
 
-        wait = WebDriverWait(driver, 35)
+        wait = WebDriverWait(driver, 55)
         second_layer_button_selector = "div.QflowObjectItem.form-control.ui-selectable.valid:not(.disabled-unit):not(:has(> div.hover-div))"
         try:
             wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, second_layer_button_selector)))
@@ -364,7 +364,7 @@ def extract_times_for_all_locations_firefox(url, driver_path,
                 current_button.click()
 
                 time_slot_container_selector = "div.step-control-content.AppointmentTime.TimeSlotModel.TimeSlotDataControl"
-                time_slot_container = WebDriverWait(driver, 35).until(
+                time_slot_container = WebDriverWait(driver, 55).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, time_slot_container_selector))
                 )
 
@@ -374,7 +374,7 @@ def extract_times_for_all_locations_firefox(url, driver_path,
                 options_loaded = False
                 skip_extraction = False
                 try:
-                    select_present_wait = WebDriverWait(driver, 5)
+                    select_present_wait = WebDriverWait(driver, 15)
                     time_select_element = select_present_wait.until(EC.presence_of_element_located(time_select_locator))
 
                     if not time_select_element.is_enabled():
@@ -382,7 +382,7 @@ def extract_times_for_all_locations_firefox(url, driver_path,
                         raw_location_results[location_name] = "Dropdown Disabled"
                         skip_extraction = True
                     else:
-                        options_loaded_wait = WebDriverWait(driver, 35)
+                        options_loaded_wait = WebDriverWait(driver, 55)
                         try:
                             options_loaded_wait.until(options_loaded_in_select(time_select_locator))
                             print("Confirmed: Options loaded.")
@@ -456,7 +456,7 @@ def extract_times_for_all_locations_firefox(url, driver_path,
                     current_url_check = driver.current_url
                     if NCDOT_APPOINTMENT_URL not in current_url_check:
                          driver.back()
-                         WebDriverWait(driver, 5).until(lambda d: d.current_url != current_url_check)
+                         WebDriverWait(driver, 25).until(lambda d: d.current_url != current_url_check)
                 except: pass 
                 time.sleep(1)
                 continue
@@ -467,7 +467,7 @@ def extract_times_for_all_locations_firefox(url, driver_path,
                     current_url = driver.current_url
                     driver.back()
                     time.sleep(1)
-                    WebDriverWait(driver, 5).until(lambda d: d.current_url != current_url)
+                    WebDriverWait(driver, 25).until(lambda d: d.current_url != current_url)
                     print("Navigated back after error.")
                     wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, second_layer_button_selector)))
                 except:
