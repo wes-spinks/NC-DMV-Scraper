@@ -212,8 +212,8 @@ def send_discord_notification(webhook_url, message_content):
     if not webhook_url or webhook_url == "YOUR_WEBHOOK_URL_HERE":
         print("Discord webhook URL not configured. Skipping notification.")
         return
-
-    intro_message = f"@everyone Appointments available at {NCDOT_APPOINTMENT_URL}:\n"
+    mention = os.getenv("MSG_MENTION", "")
+    intro_message = f"{mention}Appointments available at {NCDOT_APPOINTMENT_URL}:\n"
     full_message = intro_message + message_content
 
     message_chunks = []

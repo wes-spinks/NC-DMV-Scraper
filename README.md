@@ -30,6 +30,12 @@ if that does not work, try
 python -m pip install requests geopy selenium
 ```
 
+or you can try installing the included requirements.txt by using above `pip3` or `python`, or with below `python3` binary:
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
 Then, download the code for this by clicking the green code button in the top right, and clicking download zip. Open that zip up, and extract it somewhere.
 
 Then, you need to get the file path for the geckodriver you downloaded, open up scrapedmv.py in a texteditor, and replace the line that says this:
@@ -171,14 +177,20 @@ or, if you wish to build the docker container locally:
 Docker build
 
 ```bash
-docker build -t nc-dmv-scraper .
+docker build -t nc-dmv-scraper -f Dockerfile
 ```
 
 then
 
-Run Container
 ```bash
-docker run -e YOUR_DISCORD_WEBHOOK_URL="PUT_YOUR_WEBHOOK_URL_HERE" nc-dmv-scraper
+docker run \
+-e YOUR_DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/1364-EXAMPLE_WEBHOOK_URLMSU3" \
+-e APPOINTMENT_TYPE="ID Card" \
+-e YOUR_ADDRESS="101 E Davie St, Raleigh NC" \
+-e DISTANCE_RANGE="100" \
+-e DATE_RANGE="4w" \
+-e MSG_MENTION="Yo, "\
+nc-dmv-scraper:latest
 ```
 
 # Docker Compose
