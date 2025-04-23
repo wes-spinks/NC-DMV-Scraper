@@ -182,15 +182,14 @@ docker build -t nc-dmv-scraper -f Dockerfile
 
 then
 
-Run Container (this time, using `podman`)
 ```bash
-podman run \
+docker run \
 -e YOUR_DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/1364-EXAMPLE_WEBHOOK_URLMSU3" \
 -e APPOINTMENT_TYPE="ID Card" \
--e "YOUR_ADDRESS=101 E Davie St, Raleigh NC" \
--e "DISTANCE_RANGE=100" \
--e "DATE_RANGE=4w" \
--e "MSG_MENTION=Yo, "\
+-e YOUR_ADDRESS="101 E Davie St, Raleigh NC" \
+-e DISTANCE_RANGE="100" \
+-e DATE_RANGE="4w" \
+-e MSG_MENTION="Yo, "\
 nc-dmv-scraper:latest
 ```
 
